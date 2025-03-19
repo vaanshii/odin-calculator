@@ -1,0 +1,37 @@
+::before,
+::after,
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --font-default-size: 3rem;
+    --color-alice-blue: #E8EEF2;
+    --color-timberwolf: #D6C9C9;
+    --color-columbia-blue: #C7D3DD;
+    --color-argentinian-blue: #77B6EA;
+    --color-onyx: #37393A;
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: inherit;
+    background-color: var(--color-timberwolf);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
+    width: 20vw;
+    height: 65vh;
+    border: 1px solid black;
+}
+
