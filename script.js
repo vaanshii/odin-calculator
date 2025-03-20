@@ -7,156 +7,143 @@ let operator = "";
 let shouldResetDisplay = false;
 
 buttonContainer.addEventListener("click", (e) => {
-    let target = e.target;
+	let target = e.target;
 
-    if(target.id === "point") {
-        !display.value.includes(".") && (display.value += ".");
-    }
+	if (target.id === "point")
+		!display.value.includes(".") && (display.value += ".");
 
-    if(target.classList.contains("calc-numbers")) {
-      if(display.value === "0" || shouldResetDisplay) {
-        display.value = target.textContent;
-        shouldResetDisplay = false;
-      }
-      else {
-        display.value += target.textContent;
-      }
-    }
+	if (target.classList.contains("calc-numbers")) {
+		if (display.value === "0" || shouldResetDisplay) {
+			display.value = target.textContent;
+			shouldResetDisplay = false;
+		} else {
+			display.value += target.textContent;
+		}
+	}
 
-    if(target.classList.contains("calc-operators")) {
-        handleOperator(target.id);
-        display.value = "0";
-    }
+	if (target.classList.contains("calc-operators")) {
+		handleOperator(target.id);
+		display.value = "0";
+	}
 
-    if(target.classList.contains("calc-equals")) {
-        operate();
-        operator = "";
-    }
+	if (target.classList.contains("calc-equals")) {
+		operate();
+		operator = "";
+	}
 
-    if(target.textContent === "AC"){
-        resetValues();
-    }
+	if (target.textContent === "AC") resetValues();
 
-    if(target.textContent === "C") {
-        display.value = "0";
-    }
-    
-    fitDigitsToScreen();
+	if (target.textContent === "C") display.value = "0";
+
+	fitDigitsToScreen();
 });
 
 document.addEventListener("keyup", (e) => {
-    let key = e.key;
-   
-    if(key === ".") {
-        !display.value.includes(".") && (display.value += ".");
-    }
+	let key = e.key;
 
-    if(!isNaN(key)) {
-        if(display.value === "0" || shouldResetDisplay) {
-            display.value = key;
-            shouldResetDisplay = false;
-          }
-          else {
-            display.value += key;
-          }
-    }
+	if (key === ".") !display.value.includes(".") && (display.value += ".");
 
-    if(["+", "-", "*", "/"].includes(key)) {
-        handleOperator(key);
-        display.value = "0";
-    }
+	if (!isNaN(key)) {
+		if (display.value === "0" || shouldResetDisplay) {
+			display.value = key;
+			shouldResetDisplay = false;
+		} else {
+			display.value += key;
+		}
+	}
 
-    if(key === "Enter") {
-        operate();
-        operator = "";
-    }
+	if (["+", "-", "*", "/"].includes(key)) {
+		handleOperator(key);
+		display.value = "0";
+	}
 
-    if(key === "Escape") {
-       resetValues();
-    }
+	if (key === "Enter") {
+		operate();
+		operator = "";
+	}
 
-    if(key === "Backspace") {
-        display.value = display.value.slice(0, -1) || "0"
-    }
+	if (key === "Escape") resetValues();
 
-    if(key === "Delete") {
-        display.value = "0";
-    }
-    fitDigitsToScreen();
-})
+	if (key === "Backspace") display.value = display.value.slice(0, -1) || "0";
 
-backspace.addEventListener("click", () => display.value = display.value.slice(0, -1) || "0");
+	if (key === "Delete") display.value = "0";
+	fitDigitsToScreen();
+});
+
+backspace.addEventListener(
+	"click",
+	() => (display.value = display.value.slice(0, -1) || "0")
+);
 
 function handleOperator(selectedOperator) {
-    if(initialNumber !== "" && operator !== "") {
-        operate();
-    }
+	if (initialNumber !== "" && operator !== "") operate();
 
-    initialNumber = display.value;
-    operator = selectedOperator;
-    shouldResetDisplay = true;
+	initialNumber = display.value;
+	operator = selectedOperator;
+	shouldResetDisplay = true;
 }
 
 function operate() {
+	if (!operator || initialNumber === "") return;
 
-    if(!operator || initialNumber === "") return;
+	let result;
+	let currentNumber = display.value;
+	switch (operator) {
+		case "+":
+			result = Math.round(addition(initialNumber, currentNumber) * 100) / 100;
+			break;
+		case "-":
+			result =
+				Math.round(subtraction(initialNumber, currentNumber) * 100) / 100;
+			break;
+		case "*":
+			result =
+				Math.round(multiplication(initialNumber, currentNumber) * 100) / 100;
+			break;
+		case "/":
+			result = Math.round(division(initialNumber, currentNumber) * 100) / 100;
+			break;
+	}
 
-    let result;
-    let currentNumber = display.value;
-    switch(operator) {
-        case '+':
-            result = Math.round(addition(initialNumber, currentNumber) * 100) / 100;
-            break;
-        case '-':
-            result = Math.round(subtraction(initialNumber, currentNumber) * 100) / 100;
-            break;
-        case '*':
-            result = Math.round(multiplication(initialNumber, currentNumber) * 100) / 100;
-            break;
-        case '/':
-            result = Math.round(division(initialNumber, currentNumber) * 100) / 100;
-            break;
-    }
-
-    display.value = result;
-    initialNumber = result;
-    shouldResetDisplay = true;
+	display.value = result;
+	initialNumber = result;
+	shouldResetDisplay = true;
 }
 
 function addition(firstNum, secondNum) {
-    return +firstNum + +secondNum;
+	return +firstNum + +secondNum;
 }
 
 function subtraction(firstNum, secondNum) {
-    return +firstNum - +secondNum;
+	return +firstNum - +secondNum;
 }
 
 function multiplication(firstNum, secondNum) {
-    return +firstNum * +secondNum;
+	return +firstNum * +secondNum;
 }
 
 function division(firstNum, secondNum) {
-    if(+secondNum === 0) return "Syntax Error";
+	if (+secondNum === 0) return "Syntax Error";
 
-    return +firstNum / +secondNum;
+	return +firstNum / +secondNum;
 }
 
 function fitDigitsToScreen() {
-    const display = document.querySelector("#display");
-    const screen = document.querySelector(".screen");
+	const display = document.querySelector("#display");
+	const screen = document.querySelector(".screen");
 
-    let fontSize = 3;
-    display.style.fontSize = fontSize + "em";
+	let fontSize = 3;
+	display.style.fontSize = fontSize + "em";
 
-    while(display.scrollWidth > screen.clientWidth && fontSize > 1) {
-        fontSize -= 0.1;
-        display.style.fontSize = fontSize + "em";
-    }
+	while (display.scrollWidth > screen.clientWidth && fontSize > 1) {
+		fontSize -= 0.1;
+		display.style.fontSize = fontSize + "em";
+	}
 }
 
 function resetValues() {
-    display.value = "0";
-    initialNumber = "";
-    operator = "";
-    shouldResetDisplay = false;
+	display.value = "0";
+	initialNumber = "";
+	operator = "";
+	shouldResetDisplay = false;
 }
