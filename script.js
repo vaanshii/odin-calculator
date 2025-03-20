@@ -1,4 +1,17 @@
 
+let display = document.querySelector("#display");
+
+const buttonContainer = document.querySelector(".button-container");
+
+buttonContainer.addEventListener("click", (e) => {
+    let target = e.target;
+
+    if(target.tagName === "BUTTON") {
+        display.value += target.textContent;
+        display.dispatchEvent(new Event("change"), fitDigitsToScreen());
+    }
+});
+
 function fitDigitsToScreen() {
     const display = document.querySelector("#display");
     const screen = document.querySelector(".screen");
