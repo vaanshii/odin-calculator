@@ -113,14 +113,8 @@ button:hover {
 	margin-bottom: 0.7rem;
 }
 
-.buttons-row.bottom .calc-operators,
-.buttons-row.bottom .calc-numbers {
-	margin-right: 0.8rem;
-	flex-shrink: 0;
-}
-
 .buttons-row.bottom .calc-equals {
-	width: 10rem;
+	width: 9.4rem;
 	background-color: var(--color-princeton-orange);
 }
 
@@ -128,7 +122,8 @@ button:hover {
 	background-color: var(--color-argentinian-blue);
 }
 
-.calc-operators {
+.calc-operators,
+#point {
 	background-color: var(--color-onyx);
 	color: var(--color-alice-blue);
 }
