@@ -25,6 +25,7 @@ buttonContainer.addEventListener("click", (e) => {
 
     if(target.classList.contains("calc-operators")) {
         handleOperator(target.id);
+        display.value = "0";
     }
 
     if(target.classList.contains("calc-equals")) {
@@ -33,14 +34,56 @@ buttonContainer.addEventListener("click", (e) => {
     }
 
     if(target.textContent === "AC"){
+        resetValues();
+    }
+
+    if(target.textContent === "C") {
         display.value = "0";
-        initialNumber = "";
-        operator = "";
-        shouldResetDisplay = false;
     }
     
     fitDigitsToScreen();
 });
+
+document.addEventListener("keyup", (e) => {
+    let key = e.key;
+   
+    if(key === ".") {
+        !display.value.includes(".") && (display.value += ".");
+    }
+
+    if(!isNaN(key)) {
+        if(display.value === "0" || shouldResetDisplay) {
+            display.value = key;
+            shouldResetDisplay = false;
+          }
+          else {
+            display.value += key;
+          }
+    }
+
+    if(["+", "-", "*", "/"].includes(key)) {
+        handleOperator(key);
+        display.value = "0";
+    }
+
+    if(key === "Enter") {
+        operate();
+        operator = "";
+    }
+
+    if(key === "Escape") {
+       resetValues();
+    }
+
+    if(key === "Backspace") {
+        display.value = display.value.slice(0, -1) || "0"
+    }
+
+    if(key === "Delete") {
+        display.value = "0";
+    }
+    fitDigitsToScreen();
+})
 
 backspace.addEventListener("click", () => display.value = display.value.slice(0, -1) || "0");
 
@@ -109,4 +152,11 @@ function fitDigitsToScreen() {
         fontSize -= 0.1;
         display.style.fontSize = fontSize + "em";
     }
+}
+
+function resetValues() {
+    display.value = "0";
+    initialNumber = "";
+    operator = "";
+    shouldResetDisplay = false;
 }
