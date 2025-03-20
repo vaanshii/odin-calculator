@@ -15,7 +15,6 @@ function fitDigitsToScreen() {
 
 display.addEventListener("change", fitDigitsToScreen());
 
-// window.addEventListener("resize", fitDigitsToScreen());
 
 
 
