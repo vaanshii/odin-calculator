@@ -1,16 +1,26 @@
-
-let display = document.querySelector("#display");
-
+const backspace = document.querySelector("#backspace");
+const display = document.querySelector("#display");
 const buttonContainer = document.querySelector(".button-container");
 
 buttonContainer.addEventListener("click", (e) => {
     let target = e.target;
 
-    if(target.tagName === "BUTTON") {
-        display.value += target.textContent;
-        display.dispatchEvent(new Event("change"), fitDigitsToScreen());
+    if(target.classList.contains("calc-numbers")) {
+        display.value = display.value === "0" ? target.textContent : display.value + target.textContent;
     }
+
+    if(target.textContent === "AC"){
+        display.value = "0";
+    }
+    
+    if(target.id === "point") {
+        !display.value.includes(".") && (display.value += ".");
+    }
+
+    fitDigitsToScreen();
 });
+
+backspace.addEventListener("click", () => display.value = display.value.slice(0, -1) || "0");
 
 function fitDigitsToScreen() {
     const display = document.querySelector("#display");
@@ -23,11 +33,4 @@ function fitDigitsToScreen() {
         fontSize -= 0.1;
         display.style.fontSize = fontSize + "em";
     }
-
 }
-
-display.addEventListener("change", fitDigitsToScreen());
-
-
-
-

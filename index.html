@@ -19,13 +19,13 @@
 				<div class="thing"></div>
 			</div>
 			<div class="screen">
-				<div id="display">0</div>
+				<input type="text" id="display" value="0" />
 			</div>
 			<div class="button-container">
 				<div class="buttons-row">
 					<button class="calc-controls">AC</button>
 					<button class="calc-controls">C</button>
-					<button class="calc-controls">
+					<button class="calc-controls" id="backspace">
 						<img src="assets/left-arrow.svg" alt="backspace" />
 					</button>
 					<button class="calc-operators">÷</button>
@@ -49,7 +49,7 @@
 					<button class="calc-operators">+</button>
 				</div>
 				<div class="buttons-row bottom">
-					<button class="calc-operators">.</button>
+					<button class="calc-operators" id="point">.</button>
 					<button class="calc-numbers" id="zero">0</button>
 					<button class="calc-equals">=</button>
 				</div>
